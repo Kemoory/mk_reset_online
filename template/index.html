@@ -1,0 +1,38 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats du Dernier Tournoi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Résultats du Dernier Tournoi</h1>
+            {% if resultats %}
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Nom du Joueur</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nom, score in resultats %}
+                            <tr>
+                                <td>{{ nom }}</td>
+                                <td>{{ score }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun tournoi n'a encore été enregistré.</p>
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>
