@@ -1,21 +1,14 @@
 # app.py
 from flask import Flask, request, redirect, url_for, render_template
 import psycopg2
+from config import db_config  # Importer la configuration de la base de données
 
 app = Flask(__name__)
-
-# Configuration de la base de données PostgreSQL
-db_config = {
-    'dbname': 'MKLocal',
-    'user': 'yanis',
-    'password': 'oui',
-    'host': 'localhost',
-    'port': '5432'
-}
 
 def get_db_connection():
     conn = psycopg2.connect(**db_config)
     return conn
+
 
 @app.route('/')
 def index():
