@@ -1,31 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="../static/css/dark-mode.css">
+
+    <title>Classement des Joueurs</title>
 </head>
 <body>
     {% include 'navbar.html' %}
     <section class="section">
         <div class="container">
-            <h1 class="title">Résultats du Dernier Tournoi</h1>
+            <h1 class="title">Classement des Joueurs</h1>
             <div class="box">
                 <table class="table is-fullwidth">
                     <thead>
                         <tr>
                             <th>Nom</th>
-                            <th>Score</th>
+                            <th>Score TrueSkill</th>
+                            <th>Tier</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for resultat in resultats %}
+                        {% for joueur in joueurs %}
                             <tr>
-                                <td>{{ resultat[0] }}</td>
-                                <td>{{ resultat[1] }}</td>
+                                <td>{{ joueur[0] }}</td>
+                                <td>{{ joueur[1] }}</td>
+                                <td>{{ joueur[2] }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

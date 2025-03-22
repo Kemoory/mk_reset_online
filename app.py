@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 # Configuration de la base de données PostgreSQL
 db_config = {
-    'dbname': 'votre_base_de_donnees',
-    'user': 'votre_utilisateur',
-    'password': 'votre_mot_de_passe',
+    'dbname': 'MKLocal',
+    'user': 'yanis',
+    'password': 'oui',
     'host': 'localhost',
     'port': '5432'
 }
@@ -44,6 +44,24 @@ def index():
     conn.close()
 
     return render_template('index.html', resultats=resultats)
+
+@app.route('/classement')
+def classement():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Récupérer les joueurs triés par score TrueSkill et tier
+    cur.execute("""
+        SELECT nom, score_trueskill, tier
+        FROM Joueurs
+        ORDER BY score_trueskill DESC, tier ASC
+    """)
+    joueurs = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template('classement.html', joueurs=joueurs)
 
 @app.route('/add_tournament', methods=['GET', 'POST'])
 def add_tournament():
