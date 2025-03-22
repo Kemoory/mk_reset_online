@@ -1,11 +1,20 @@
-/* Variables pour le mode sombre */
+/* Variables pour le mode sombre amélioré */
 :root {
-    --background-color: #1f2937;
-    --text-color: #f5f5f5;
+    --background-color: #0f172a;
+    --secondary-background: #1e293b;
+    --text-color: #f1f5f9;
     --primary-color: #3b82f6;
-    --box-background-color: #2d3748;
-    --input-text-color: #000000; /* Couleur noire pour le texte des inputs */
-    --header-text-color: #ffffff; /* Couleur blanche pour les en-têtes */
+    --secondary-color: #2563eb;
+    --accent-color: #f59e0b;
+    --danger-color: #ef4444;
+    --success-color: #10b981;
+    --box-background-color: #1e293b;
+    --card-background: rgba(30, 41, 59, 0.8);
+    --input-text-color: #5789c9;
+    --input-background: #dfe5ec;
+    --header-text-color: #f8fafc;
+    --border-color: rgba(59, 130, 246, 0.3);
+    --hover-color: #334155;
 }
 
 /* Appliquer les couleurs du mode sombre */
@@ -15,60 +24,178 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.navbar, .navbar-brand, .navbar-item, .navbar-menu {
-    background-color: var(--background-color);
-    color: var(--text-color);
+/* Navbar styling */
+.navbar {
+    background-color: var(--secondary-background) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0 !important;
 }
 
-.navbar-item:hover {
+.navbar-item, .navbar-link {
+    color: var(--text-color) !important;
+    transition: all 0.3s ease;
+}
+
+.navbar-item:hover, .navbar-link:hover, .navbar-item.is-active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.navbar-dropdown {
+    background-color: var(--secondary-background);
+    border-top: 2px solid var(--primary-color);
+}
+
+.navbar-divider {
+    background-color: var(--border-color);
+}
+
+/* Button styling */
+.button {
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.button.is-primary {
     background-color: var(--primary-color);
+    border-color: transparent;
 }
 
-.title, .subtitle {
+.button.is-primary:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+}
+
+.button.is-light {
+    background-color: var(--secondary-background);
     color: var(--text-color);
+    border-color: var(--border-color);
 }
 
-.box {
-    background-color: var(--box-background-color);
-    color: var(--text-color);
+.button.is-light:hover {
+    background-color: var(--hover-color);
 }
 
-.table {
-    background-color: var(--box-background-color);
-    color: var(--text-color);
-}
-
-.table th {
-    color: var(--header-text-color) !important; /* En-têtes de tableau en blanc */
+.button.is-outlined {
+    background-color: transparent;
     border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.button.is-outlined:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Input styling */
+.input, .textarea, .select select {
+    background-color: var(--input-background);
+    color: var(--input-text-color);
+    border-color: var(--border-color);
+    border-radius: 6px;
+}
+
+.input:focus, .textarea:focus, .select select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.125em rgba(59, 130, 246, 0.25);
+}
+
+/* Card and box styling */
+.box, .card {
+    background-color: var(--box-background-color);
+    color: var(--text-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Table styling */
+.table {
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.table thead th {
+    color: var(--header-text-color) !important;
+    border-color: var(--border-color);
+    font-weight: 600;
 }
 
 .table td {
-    border-color: var(--primary-color);
+    border-color: var(--border-color);
+    vertical-align: middle;
 }
 
-.button {
+.table.is-hoverable tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Titre et texte */
+.title, .subtitle {
+    color: var(--header-text-color);
+}
+
+/* Hero section */
+.hero.is-primary {
     background-color: var(--primary-color);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--secondary-background);
     color: var(--text-color);
+    padding: 2rem;
+    margin-top: 3rem;
 }
 
-.button:hover {
-    background-color: #2563eb;
+/* Tags styling */
+.tag {
+    border-radius: 20px;
 }
 
-.field, .label, .control {
-    color: var(--text-color);
+.tier-tag {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
-.input {
-    color: var(--input-text-color); /* Assure que le texte dans les inputs est noir */
-    background-color: var(--box-background-color);
-    border-color: var(--primary-color);
+/* Player name styling */
+.player-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
 }
 
-.section, .container {
-    background-color: var(--background-color);
-    color: var(--text-color);
+/* Transitions générales */
+a, button, input, .card, .box {
+    transition: all 0.3s ease;
+}
+
+/* Brand item */
+.brand-item {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Tabs */
+.tabs li.is-active a {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.tabs a {
+    color: var(--text-color) !important;
+}
+
+.tabs a:hover {
+    color: var(--primary-color) !important;
 }

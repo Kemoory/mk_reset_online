@@ -1,9 +1,9 @@
 # config.py
 
 db_config = {
-    'dbname': 'MKLocal',
-    'user': 'user',
-    'password': 'password',
+    'dbname': 'mklocal',
+    'user': 'zack',
+    'password': 'zack',
     'host': 'localhost',
     'port': '5432'
 }
