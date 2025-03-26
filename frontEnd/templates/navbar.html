@@ -1,0 +1,110 @@
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item brand-item" href="/">
+        <i class="fas fa-gamepad"></i>
+        <strong class="ml-2">MK Reset</strong>
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarMenu" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/">
+          <span class="icon"><i class="fas fa-home"></i></span>
+          <span>Accueil</span>
+        </a>
+        
+        <a class="navbar-item" href="/classement">
+          <span class="icon"><i class="fas fa-trophy"></i></span>
+          <span>Classement</span>
+        </a>
+        
+        <a class="navbar-item" href="/add_tournament">
+          <span class="icon"><i class="fas fa-plus-circle"></i></span>
+          <span>Ajouter un Tournoi</span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <span class="icon"><i class="fas fa-chart-bar"></i></span>
+            <span>Statistiques</span>
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-users"></i></span>
+              <span>Par Joueur</span>
+            </a>
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+              <span>Par Tournoi</span>
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-chart-line"></i></span>
+              <span>Tendances</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+              <span>Connexion</span>
+            </a>
+            <a class="button is-light theme-toggle">
+              <span class="icon"><i class="fas fa-moon"></i></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container">
+      {% for category, message in messages %}
+        <div class="notification is-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Gestion du burger menu pour mobile
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    if ($navbarBurgers.length > 0) {
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+        });
+      });
+    }
+    
+    // Mise en évidence de l'élément actif
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.navbar-start .navbar-item');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('is-active');
+      }
+    });
+  });
+</script>
