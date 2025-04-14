@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, request
 import psycopg2
 from config import db_config
+from trueskill import Rating, rate
 
 app = Flask(__name__)
 
@@ -53,6 +54,8 @@ def classement():
 
 @app.route('/add-tournament', methods=['POST'])
 def add_tournament():
+    from collections import defaultdict
+
     data = request.get_json()
     date = data.get('date')
     joueurs = data.get('joueurs', [])
@@ -69,29 +72,79 @@ def add_tournament():
     else:
         tournoi_id = tournoi[0]
 
+    positions = {}
+    player_ids = {}
+    player_ratings = []
+
     for joueur in joueurs:
         nom = joueur['nom']
         score = joueur['score']
 
-        cur.execute("SELECT id FROM Joueurs WHERE nom = %s", (nom,))
+        # Récupérer ou créer le joueur
+        cur.execute("SELECT id, mu, sigma FROM Joueurs WHERE nom = %s", (nom,))
         joueur_data = cur.fetchone()
 
         if joueur_data is None:
             cur.execute("INSERT INTO Joueurs (nom) VALUES (%s) RETURNING id", (nom,))
             joueur_id = cur.fetchone()[0]
+            mu, sigma = 25.0, 8.333  # valeurs par défaut
         else:
-            joueur_id = joueur_data[0]
+            joueur_id, mu, sigma = joueur_data
 
+        player_ids[nom] = joueur_id
+        positions[nom] = -score  # TrueSkill veut rangs croissants, donc scores décroissants
+        player_ratings.append((nom, Rating(mu=mu, sigma=sigma)))
+
+        # Enregistrer la participation
         cur.execute(
             "INSERT INTO Participations (joueur_id, tournoi_id, score) VALUES (%s, %s, %s)",
             (joueur_id, tournoi_id, score)
         )
+
+    # Trier les joueurs par score décroissant
+    sorted_players = sorted(player_ratings, key=lambda x: positions[x[0]])
+    rating_groups = [[r[1]] for r in sorted_players]
+    ranks = list(range(len(sorted_players)))
+
+    new_ratings = rate(rating_groups, ranks=ranks)
+
+    # Mettre à jour les joueurs avec leurs nouveaux ratings
+    for i, (nom, _) in enumerate(sorted_players):
+        new_rating = new_ratings[i][0]
+        joueur_id = player_ids[nom]
+        cur.execute(
+            "UPDATE Joueurs SET mu = %s, sigma = %s WHERE id = %s",
+            (new_rating.mu, new_rating.sigma, joueur_id)
+        )
+    
+        # Mise à jour des tiers après mise à jour des scores TrueSkill
+    cur.execute("SELECT id, score_trueskill FROM Joueurs WHERE score_trueskill IS NOT NULL")
+    joueurs = cur.fetchall()
+
+    if joueurs:
+        scores = [score for (_, score) in joueurs]
+        q1 = np.percentile(scores, 25)
+        q2 = np.percentile(scores, 50)
+        q3 = np.percentile(scores, 75)
+
+        for joueur_id, score in joueurs:
+            if score >= q3:
+                tier = 'S'
+            elif score >= q2:
+                tier = 'A'
+            elif score >= q1:
+                tier = 'B'
+            else:
+                tier = 'C'
+            cur.execute("UPDATE Joueurs SET tier = %s WHERE id = %s", (tier, joueur_id))
+
 
     conn.commit()
     cur.close()
     conn.close()
 
     return jsonify({"status": "success"})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
