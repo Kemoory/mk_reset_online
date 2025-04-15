@@ -3,6 +3,8 @@ from flask import Flask, jsonify, request
 import psycopg2
 from config import db_config
 from trueskill import Rating, rate
+from collections import defaultdict
+import numpy as np
 
 app = Flask(__name__)
 
@@ -54,14 +56,14 @@ def classement():
 
 @app.route('/add-tournament', methods=['POST'])
 def add_tournament():
-    from collections import defaultdict
-
+    print("Received request to add tournament") #Testing
     data = request.get_json()
     date = data.get('date')
     joueurs = data.get('joueurs', [])
-
+    print(f"Date: {date}, Joueurs: {joueurs}") #Testing
     conn = get_db_connection()
     cur = conn.cursor()
+    print("Connected to the database") #Testing
 
     cur.execute("SELECT id FROM Tournois WHERE date = %s", (date,))
     tournoi = cur.fetchone()
@@ -78,8 +80,8 @@ def add_tournament():
 
     for joueur in joueurs:
         nom = joueur['nom']
-        score = joueur['score']
-
+        score_brut = joueur['score']
+        score=int(score_brut)
         # Récupérer ou créer le joueur
         cur.execute("SELECT id, mu, sigma FROM Joueurs WHERE nom = %s", (nom,))
         joueur_data = cur.fetchone()

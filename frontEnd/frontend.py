@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import requests
 
 app = Flask(__name__)
-BACKEND_URL = "http://backend:8080"
+BACKEND_URL = "http://127.0.0.1:8080"  # URL de l'API backend
 
 @app.route('/')
 def index():
