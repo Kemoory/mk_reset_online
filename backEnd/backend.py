@@ -3,7 +3,6 @@ from flask import Flask, jsonify, request
 import psycopg2
 from config import db_config
 from trueskill import Rating, rate
-from collections import defaultdict
 import numpy as np
 
 app = Flask(__name__)
