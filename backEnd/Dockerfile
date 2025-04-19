@@ -12,6 +12,7 @@ COPY config.py .
 # Installer les dépendances Python
 RUN pip install --no-cache-dir -r requirement.txt
 
+
 # Exposer le port Flask
 EXPOSE 8080
 
