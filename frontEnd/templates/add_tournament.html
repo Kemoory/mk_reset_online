@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="../static/css/dark-mode.css">
     <link rel="stylesheet" href="../static/css/animations.css">
+    <link rel="stylesheet" href="../static/css/form-readability.css">
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -104,7 +105,7 @@
                             <!-- Datalist pour l'autocomplétion des noms de joueurs -->
                             <datalist id="existingPlayers">
                                 {% for joueur in joueurs %}
-                                    <option value="{{ joueur.nom }}">
+                                    <option value="{{ joueur.nom }}"></option>
                                 {% endfor %}
                             </datalist>
                         </div>
@@ -117,7 +118,7 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
-                <strong>MK Reset</strong> | Développé par Yanis ALLAIN</i>
+                <strong>MK Reset</strong> | <i>Développé par Yanis ALLAIN</i>
             </p>
         </div>
     </footer>
@@ -125,6 +126,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../static/js/script.js"></script>
     <script>
+        // Initialisation des variables
+        let joueurCount = 1;
+        
         document.addEventListener('DOMContentLoaded', () => {
             // Appliquer l'animation aux éléments
             const fadeElems = document.querySelectorAll('.fade-in');
@@ -176,14 +180,15 @@
                 newJoueurDiv.classList.add('visible');
             }, 10);
         }
+        
+        // Fonction pour supprimer un joueur
+        function supprimerJoueur(button) {
+            const joueurDiv = button.closest('.joueur');
+            joueurDiv.classList.remove('visible');
+            setTimeout(() => {
+                joueurDiv.remove();
+            }, 300);
+        }
     </script>
-    <!-- Ensure variables are not None before performing division -->
-    <td>
-        {% if joueur is defined and joueur.points is not none and joueur.matches is not none and joueur.matches != 0 %}
-            {{ joueur.points / joueur.matches }}
-        {% else %}
-            N/A
-        {% endif %}
-    </td>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/* Variables pour le mode sombre amélioré */
+/* Variables pour le mode sombre amélioré avec meilleur contraste */
 :root {
     --background-color: #0f172a;
     --secondary-background: #1e293b;
@@ -10,9 +10,10 @@
     --success-color: #10b981;
     --box-background-color: #1e293b;
     --card-background: rgba(30, 41, 59, 0.8);
-    --input-text-color: #5789c9;
-    --input-background: #dfe5ec;
+    --input-background: #e2e8f0;
+    --input-text-color: #1a202c;
     --header-text-color: #f8fafc;
+    --label-color: #f1f5f9; /* Éclaircissement pour meilleure lisibilité */
     --border-color: rgba(59, 130, 246, 0.3);
     --hover-color: #334155;
 }
@@ -112,6 +113,17 @@ body, html {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Label styling pour meilleure lisibilité */
+.label {
+    color: var(--label-color) !important; /* Force l'application de la couleur claire */
+    font-weight: 600;
+}
+
+/* Card content styling */
+.card-content {
+    color: var(--text-color);
+}
+
 /* Table styling */
 .table {
     background-color: transparent;
@@ -120,6 +132,7 @@ body, html {
 
 .table thead th {
     color: var(--header-text-color) !important;
+    background-color: var(--secondary-background) !important;
     border-color: var(--border-color);
     font-weight: 600;
 }
@@ -130,12 +143,13 @@ body, html {
 }
 
 .table.is-hoverable tbody tr:hover {
-    background-color: rgba(59, 130, 246, 0.1);
+    background-color: rgba(59, 130, 246, 0.15) !important;
 }
 
 /* Titre et texte */
-.title, .subtitle {
+.title, .subtitle, .card-header-title {
     color: var(--header-text-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Hero section */
@@ -157,14 +171,14 @@ body, html {
 }
 
 .tier-tag {
-    width: 2rem;
+    width: 100%;
     height: 2rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
     font-size: 1rem;
+    font-weight: 700;
 }
 
 /* Player name styling */
@@ -180,10 +194,22 @@ a, button, input, .card, .box {
     transition: all 0.3s ease;
 }
 
+/* Amélioration des bordures */
+.card, .box {
+    border: 1px solid var(--border-color);
+}
+
 /* Brand item */
 .brand-item {
     font-size: 1.2rem;
     font-weight: 700;
+}
+
+/* Correction des stats-box */
+.stat-box {
+    background-color: var(--secondary-background);
+    border-radius: 8px;
+    padding: 1rem;
 }
 
 /* Tabs */
@@ -198,4 +224,19 @@ a, button, input, .card, .box {
 
 .tabs a:hover {
     color: var(--primary-color) !important;
+}
+
+/* Amélioration spécifique pour les cartes en verre */
+.glass-card .card-content {
+    color: var(--text-color);
+}
+
+/* Style spécifique pour les labels dans les cartes en verre */
+.glass-card .label {
+    color: #e2e8f0 !important; /* Couleur encore plus claire pour un meilleur contraste */
+}
+
+/* Style pour améliorer la lisibilité dans les boîtes de joueurs */
+.joueur {
+    color: var(--text-color);
 }

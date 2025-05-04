@@ -39,10 +39,31 @@
                         <div class="card-content">
                             <div class="tabs is-centered is-boxed">
                                 <ul>
-                                    <li class="is-active"><a><i class="fas fa-list"></i> Tous les joueurs</a></li>
-                                    <li><a><i class="fas fa-star"></i> Tier S</a></li>
-                                    <li><a><i class="fas fa-award"></i> Tier A</a></li>
-                                    <li><a><i class="fas fa-medal"></i> Tier B</a></li>
+                                    <li class="{{ 'is-active' if not tier_actif else '' }}">
+                                        <a href="/classement">
+                                            <i class="fas fa-list"></i> Tous les joueurs
+                                        </a>
+                                    </li>
+                                    <li class="{{ 'is-active' if tier_actif == 'S' else '' }}">
+                                        <a href="/classement?tier=S">
+                                            <i class="fas fa-star"></i> Tier S
+                                        </a>
+                                    </li>
+                                    <li class="{{ 'is-active' if tier_actif == 'A' else '' }}">
+                                        <a href="/classement?tier=A">
+                                            <i class="fas fa-award"></i> Tier A
+                                        </a>
+                                    </li>
+                                    <li class="{{ 'is-active' if tier_actif == 'B' else '' }}">
+                                        <a href="/classement?tier=B">
+                                            <i class="fas fa-medal"></i> Tier B
+                                        </a>
+                                    </li>
+                                    <li class="{{ 'is-active' if tier_actif == 'C' else '' }}">
+                                        <a href="/classement?tier=C">
+                                            <i class="fas fa-medal"></i> Tier C
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="content">
@@ -50,14 +71,14 @@
                                     <div class="level-left">
                                         <div class="level-item">
                                             <div class="field has-addons">
-                                                <p class="control">
-                                                    <input class="input" type="text" placeholder="Rechercher un joueur">
-                                                </p>
-                                                <p class="control">
-                                                    <button class="button is-primary">
+                                                <div class="control">
+                                                    <input class="input" type="text" id="joueurSearch" placeholder="Rechercher un joueur">
+                                                </div>
+                                                <div class="control">
+                                                    <button class="button is-primary" id="btnSearchJoueur">
                                                         <i class="fas fa-search"></i>
                                                     </button>
-                                                </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -73,9 +94,9 @@
                                             <th><i class="fas fa-chart-bar"></i> Statistiques</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tableJoueurs">
                                         {% for joueur in joueurs %}
-                                            <tr class="fade-in" style="animation-delay: {{ loop.index * 0.1 }}s">
+                                            <tr class="fade-in joueur-row" style="animation-delay: {{ loop.index * 0.1 }}s" data-nom="{{ joueur[0] }}">
                                                 <td>
                                                     {% if loop.index == 1 %}
                                                         <span class="tag is-warning"><i class="fas fa-crown"></i> 1</span>
@@ -124,12 +145,12 @@
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    <button class="button is-small is-primary is-outlined">
+                                                    <a href="/stats/joueur/{{ joueur[0] }}" class="button is-small is-primary is-outlined">
                                                         <span class="icon">
                                                             <i class="fas fa-chart-pie"></i>
                                                         </span>
                                                         <span>Détails</span>
-                                                    </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -161,14 +182,26 @@
                 elem.classList.add('visible');
             });
             
-            // Gestion des onglets
-            const tabItems = document.querySelectorAll('.tabs li');
-            tabItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    tabItems.forEach(i => i.classList.remove('is-active'));
-                    item.classList.add('is-active');
+            // Recherche de joueur
+            const joueurSearch = document.getElementById('joueurSearch');
+            const btnSearchJoueur = document.getElementById('btnSearchJoueur');
+            
+            function filterJoueurs() {
+                const searchText = joueurSearch.value.toLowerCase();
+                const rows = document.querySelectorAll('.joueur-row');
+                
+                rows.forEach(row => {
+                    const nom = row.getAttribute('data-nom').toLowerCase();
+                    if (nom.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
                 });
-            });
+            }
+            
+            joueurSearch.addEventListener('keyup', filterJoueurs);
+            btnSearchJoueur.addEventListener('click', filterJoueurs);
         });
     </script>
 </body>
