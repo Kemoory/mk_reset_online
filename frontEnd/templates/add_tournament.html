@@ -101,13 +101,6 @@
                                     </div>
                                 </div>
                             </form>
-
-                            <!-- Datalist pour l'autocomplétion des noms de joueurs -->
-                            <datalist id="existingPlayers">
-                                {% for joueur in joueurs %}
-                                    <option value="{{ joueur.nom }}"></option>
-                                {% endfor %}
-                            </datalist>
                         </div>
                     </div>
                 </div>
@@ -115,80 +108,9 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                <strong>MK Reset</strong> | <i>Développé par Yanis ALLAIN</i>
-            </p>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../static/js/script.js"></script>
-    <script>
-        // Initialisation des variables
-        let joueurCount = 1;
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // Appliquer l'animation aux éléments
-            const fadeElems = document.querySelectorAll('.fade-in');
-            fadeElems.forEach(elem => {
-                elem.classList.add('visible');
-            });
-        });
-
-        // Fonction modifiée pour ajouter un joueur avec le style amélioré
-        function ajouterJoueur() {
-            if (joueurCount >= 12) {
-                alert("Vous ne pouvez pas ajouter plus de 12 joueurs.");
-                return;
-            }
-            joueurCount++;
-            const joueursContainer = document.getElementById('joueursContainer');
-            const newJoueurDiv = document.createElement('div');
-            newJoueurDiv.className = 'box joueur glass-card fade-in';
-            newJoueurDiv.innerHTML = `
-                <div class="field">
-                    <label class="label" for="nom${joueurCount}">Nom du joueur ${joueurCount}:</label>
-                    <div class="control has-icons-left">
-                        <input type="text" id="nom${joueurCount}" name="nom${joueurCount}" class="input player-name-input" list="existingPlayers" required>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-user"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label" for="score${joueurCount}">Score du joueur ${joueurCount}:</label>
-                    <div class="control has-icons-left">
-                        <input type="number" id="score${joueurCount}" name="score${joueurCount}" class="input" required>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-star"></i>
-                        </span>
-                    </div>
-                </div>
-                <button type="button" class="button is-danger is-small remove-joueur" onclick="supprimerJoueur(this)">
-                    <span class="icon">
-                        <i class="fas fa-trash"></i>
-                    </span>
-                    <span>Supprimer</span>
-                </button>
-            `;
-            joueursContainer.appendChild(newJoueurDiv);
-            
-            // Appliquer l'animation
-            setTimeout(() => {
-                newJoueurDiv.classList.add('visible');
-            }, 10);
-        }
-        
-        // Fonction pour supprimer un joueur
-        function supprimerJoueur(button) {
-            const joueurDiv = button.closest('.joueur');
-            joueurDiv.classList.remove('visible');
-            setTimeout(() => {
-                joueurDiv.remove();
-            }, 300);
-        }
-    </script>
 </body>
 </html>

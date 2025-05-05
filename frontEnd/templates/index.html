@@ -52,13 +52,13 @@
                                             <tr class="fade-in" style="animation-delay: {{ loop.index * 0.1 }}s">
                                                 <td>
                                                     {% if loop.index == 1 %}
-                                                        <span class="tag is-warning"><i class="fas fa-crown"></i> 1er</span>
+                                                        <span class="tag is-warning"><i class="fas fa-crown"></i> 1</span>
                                                     {% elif loop.index == 2 %}
-                                                        <span class="tag is-light is-medium"><i class="fas fa-medal"></i> 2e</span>
+                                                        <span class="tag is-light "><i class="fas fa-medal"></i> 2</span>
                                                     {% elif loop.index == 3 %}
-                                                        <span class="tag is-danger is-medium"><i class="fas fa-medal"></i> 3e</span>
+                                                        <span class="tag is-bronze"><i class="fas fa-medal"></i> 3</span>
                                                     {% else %}
-                                                        <span class="tag is-info is-medium">{{ loop.index }}</span>
+                                                        <span class="tag is-info">{{ loop.index }}</span>
                                                     {% endif %}
                                                 </td>
                                                 <td>{{ resultat[0] }}</td>
@@ -89,13 +89,8 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                <strong>MK Reset</strong> | Développé par Yanis ALLAIN</i>
-            </p>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../static/js/script.js"></script>

@@ -47,7 +47,7 @@
                                             <div class="podium-player">
                                                 <i class="fas fa-user-circle fa-3x"></i>
                                                 <div class="podium-name">
-                                                    <a href="/stats/joueur/{{ resultats[1].nom }}">{{ resultats[1].nom }}</a>
+                                                    <a href="/stats/joueur/{{ resultats[1].nom }}" class="has-text-primary">{{ resultats[1].nom }}</a>
                                                 </div>
                                                 <div class="podium-score">{{ resultats[1].score }} pts</div>
                                                 <div class="podium-medal">
@@ -63,7 +63,7 @@
                                             <div class="podium-player">
                                                 <i class="fas fa-user-circle fa-4x"></i>
                                                 <div class="podium-name">
-                                                    <a href="/stats/joueur/{{ resultats[0].nom }}">{{ resultats[0].nom }}</a>
+                                                    <a href="/stats/joueur/{{ resultats[0].nom }}" class="has-text-primary">{{ resultats[0].nom }}</a>
                                                 </div>
                                                 <div class="podium-score">{{ resultats[0].score }} pts</div>
                                                 <div class="podium-medal">
@@ -78,7 +78,7 @@
                                             <div class="podium-player">
                                                 <i class="fas fa-user-circle fa-3x"></i>
                                                 <div class="podium-name">
-                                                    <a href="/stats/joueur/{{ resultats[2].nom }}">{{ resultats[2].nom }}</a>
+                                                    <a href="/stats/joueur/{{ resultats[2].nom }}" class="has-text-primary">{{ resultats[2].nom }}</a>
                                                 </div>
                                                 <div class="podium-score">{{ resultats[2].score }} pts</div>
                                                 <div class="podium-medal">
@@ -131,7 +131,7 @@
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td>
-                                            <a href="/stats/joueur/{{ joueur.nom }}">{{ joueur.nom }}</a>
+                                            <a href="/stats/joueur/{{ joueur.nom }}" class="has-text-primary">{{ joueur.nom }}</a>
                                         </td>
                                         <td>{{ joueur.score }} pts</td>
                                     </tr>
@@ -149,6 +149,7 @@
             </div>
         </div>
     </section>
+    {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../static/js/script.js"></script>
     <script>

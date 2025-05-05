@@ -240,3 +240,9 @@ a, button, input, .card, .box {
 .joueur {
     color: var(--text-color);
 }
+
+.tag.is-bronze {
+    background-color: #753d04; /* Couleur bronze */
+    color: white;
+  }
+  
