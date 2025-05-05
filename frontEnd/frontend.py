@@ -153,6 +153,14 @@ def stats_tournois():
     response = requests.get(f"{BACKEND_URL}/stats/tournois")
     tournois = response.json()
     
+    # Adapter les données au format attendu par le template
+    for tournoi in tournois:
+        # Renommer nb_joueurs en participants pour correspondre au template
+        tournoi['participants'] = tournoi.pop('nb_joueurs') if 'nb_joueurs' in tournoi else 0
+        # S'assurer que vainqueur existe
+        if 'vainqueur' not in tournoi:
+            tournoi['vainqueur'] = "Inconnu"
+    
     return render_template("stats_tournois.html", tournois=tournois)
 
 @app.route('/stats/tournoi/<int:tournoi_id>')
@@ -167,16 +175,6 @@ def stats_tournoi(tournoi_id):
     data = response.json()
     
     return render_template("stats_tournoi.html", date=data['date'], resultats=data['resultats'])
-
-@app.route('/stats/tendances')
-def stats_tendances():
-    # Récupérer les tendances
-    response = requests.get(f"{BACKEND_URL}/stats/tendances")
-    data = response.json()
-    
-    return render_template("stats_tendances.html", 
-                          progressions=data['progressions'], 
-                          distribution=data['distribution_tiers'])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

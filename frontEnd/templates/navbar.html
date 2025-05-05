@@ -15,23 +15,13 @@
 
     <div id="navbarMenu" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" href="/">
-          <span class="icon"><i class="fas fa-home"></i></span>
-          <span>Accueil</span>
-        </a>
+        <!-- Suppression du lien "Accueil" car redondant avec le logo -->
         
         <a class="navbar-item" href="/classement">
           <span class="icon"><i class="fas fa-trophy"></i></span>
           <span>Classement</span>
         </a>
         
-        {% if session.get('admin_token') %}
-        <a class="navbar-item" href="/add_tournament">
-          <span class="icon"><i class="fas fa-plus-circle"></i></span>
-          <span>Ajouter un Tournoi</span>
-        </a>
-        {% endif %}
-
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             <span class="icon"><i class="fas fa-chart-bar"></i></span>
@@ -47,13 +37,15 @@
               <span class="icon"><i class="fas fa-calendar-alt"></i></span>
               <span>Par Tournoi</span>
             </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item" href="/stats/tendances">
-              <span class="icon"><i class="fas fa-chart-line"></i></span>
-              <span>Tendances</span>
-            </a>
           </div>
         </div>
+        
+        {% if session.get('admin_token') %}
+        <a class="navbar-item" href="/add_tournament">
+          <span class="icon"><i class="fas fa-plus-circle"></i></span>
+          <span>Ajouter un Tournoi</span>
+        </a>
+        {% endif %}
       </div>
 
       <div class="navbar-end">
@@ -70,9 +62,7 @@
               <span>Accès Admin</span>
             </a>
             {% endif %}
-            <a class="button is-light theme-toggle">
-              <span class="icon"><i class="fas fa-moon"></i></span>
-            </a>
+            <!-- Bouton thème sombre supprimé car non fonctionnel -->
           </div>
         </div>
       </div>
@@ -112,10 +102,19 @@
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.navbar-start .navbar-item');
     navLinks.forEach(link => {
-      if (link.getAttribute('href') === currentPath) {
+      const href = link.getAttribute('href');
+      if (href && (href === currentPath || (href !== '/' && currentPath.startsWith(href)))) {
         link.classList.add('is-active');
       }
     });
+    
+    // Mise en évidence de la section statistiques active
+    if (currentPath.startsWith('/stats/')) {
+      const statsDropdown = document.querySelector('.navbar-link');
+      if (statsDropdown) {
+        statsDropdown.classList.add('is-active');
+      }
+    }
     
     // Gestion de fermeture des notifications
     document.querySelectorAll('.notification .delete').forEach(deleteButton => {

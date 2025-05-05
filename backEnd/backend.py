@@ -433,13 +433,17 @@ def stats_tournois():
     conn = get_db_connection()
     cur = conn.cursor()
     
-    # Liste des tournois
+    # Liste des tournois avec le vainqueur (joueur avec le score max)
     cur.execute("""
         SELECT 
             t.id, 
             t.date, 
             COUNT(p.joueur_id) as nb_joueurs,
-            MAX(p.score) as score_max
+            MAX(p.score) as score_max,
+            (SELECT j.nom FROM Joueurs j 
+             JOIN Participations p2 ON j.id = p2.joueur_id 
+             WHERE p2.tournoi_id = t.id 
+             ORDER BY p2.score DESC LIMIT 1) as vainqueur
         FROM 
             Tournois t
         LEFT JOIN 
@@ -451,12 +455,13 @@ def stats_tournois():
     """)
     
     tournois = []
-    for id, date, nb_joueurs, score_max in cur.fetchall():
+    for id, date, nb_joueurs, score_max, vainqueur in cur.fetchall():
         tournois.append({
             "id": id,
             "date": date.strftime('%Y-%m-%d'),
             "nb_joueurs": nb_joueurs,
-            "score_max": score_max
+            "score_max": score_max,
+            "vainqueur": vainqueur if vainqueur else "Inconnu"
         })
     
     cur.close()
