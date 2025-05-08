@@ -1,5 +1,6 @@
 # frontend.py
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+import numpy as np
 import requests
 import os
 
@@ -129,7 +130,6 @@ def stats_joueur(nom):
         # Calculer l'écart-type à partir des scores de l'historique
         scores = [tournoi['score'] for tournoi in data['historique']]
         if scores:
-            import numpy as np
             stats['ecart_type_scores'] = float(np.std(scores))
         else:
             stats['ecart_type_scores'] = 0

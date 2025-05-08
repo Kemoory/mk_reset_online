@@ -6,8 +6,6 @@ from trueskill import Rating, rate
 import numpy as np
 import functools
 from flask import request, abort
-import hashlib
-import os
 
 app = Flask(__name__)
 
