@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backEnd
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=tournament_db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontEnd
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - backend
+    environment:
+      - BACKEND_URL=http://backend:8080
+    restart: unless-stopped
+
+volumes:
+  pg_data:
