@@ -4,6 +4,8 @@
 
 **Mario Kart Reset Online** est une application web dynamique permettant de suivre les résultats de tournois de Mario Kart. Elle propose une interface utilisateur pour consulter les résultats des tournois ayant été joués, afficher un classement général des joueurs basé sur l’algorithme **TrueSkill**, et explorer des **statistiques détaillées** sur les performances des joueurs.
 
+Lien vers le [dépôt](https://github.com/Kemoory/mk_reset_online).
+
 ## 🚀 Fonctionnalités principales
 
 - 📊 **Consultation des résultats de tournois**  
@@ -44,7 +46,7 @@ mk_reset_online/
 
 - Python 3.9+
 - PostgreSQL
-- Docker & Docker Compose
+- Docker & Docker Compose (n'oubliez pas de démarrer docker)
 
 ### Via Docker 
 
